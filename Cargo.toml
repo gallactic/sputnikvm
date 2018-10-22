@@ -48,4 +48,5 @@ members = [
   "./network/musicoin",
   "./network/expanse",
   "./network/ubiq",
+  "./network/gallactic",
 ]
