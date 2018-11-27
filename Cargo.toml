@@ -42,6 +42,8 @@ members = [
   "./cli",
   "./precompiled/modexp",
   "./precompiled/bn128",
+  "./precompiled/edverify",
+  "./precompiled/interchaintrx",
   "./network/foundation",
   "./network/classic",
   "./network/ellaism",
