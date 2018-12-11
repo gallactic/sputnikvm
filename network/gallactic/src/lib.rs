@@ -3,6 +3,7 @@ extern crate sputnikvm;
 extern crate sputnikvm_precompiled_modexp;
 extern crate sputnikvm_precompiled_bn128;
 extern crate sputnikvm_precompiled_edverify;
+extern crate sputnikvm_precompiled_interchaintrx;
 
 use std::marker::PhantomData;
 use bigint::{Gas, U256, H160, Address};
@@ -10,7 +11,8 @@ use sputnikvm::{Precompiled, AccountPatch, Patch,
                 ID_PRECOMPILED, ECREC_PRECOMPILED, SHA256_PRECOMPILED, RIP160_PRECOMPILED};
 use sputnikvm_precompiled_modexp::MODEXP_PRECOMPILED;
 use sputnikvm_precompiled_bn128::{BN128_ADD_PRECOMPILED, BN128_MUL_PRECOMPILED, BN128_PAIRING_PRECOMPILED};
-use sputnikvm_precompiled_edverify::{EDVERIFY_PRECOMPILED};
+use sputnikvm_precompiled_edverify::EDVERIFY_PRECOMPILED;
+use sputnikvm_precompiled_interchaintrx::INT_CHAIN_TRX_PRECOMPILED;
 
 //Gallactic account patch
 pub struct GallacticAccountPatch;
@@ -20,7 +22,7 @@ impl AccountPatch for GallacticAccountPatch {
     fn empty_considered_exists() -> bool { true }
 }
 
-pub static GALLACTIC_PRECOMPILEDS: [(Address, Option<&'static [u8]>, &'static Precompiled); 9] = [
+pub static GALLACTIC_PRECOMPILEDS: [(Address, Option<&'static [u8]>, &'static Precompiled); 10] = [
     (H160([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x01]),
      None,
      &ECREC_PRECOMPILED),
@@ -48,13 +50,9 @@ pub static GALLACTIC_PRECOMPILEDS: [(Address, Option<&'static [u8]>, &'static Pr
     (H160([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x64]),
      None,
      &EDVERIFY_PRECOMPILED),
-     /*TODO: Need to work on
     (H160([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x65]),
      None,
-     &CHK_INT_TRX_PRECOMPILED),
-     (H160([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x66]),
-     None,
-     &CRT_NEW_BLK_PRECOMPILED),*/
+     &INT_CHAIN_TRX_PRECOMPILED),
 ];
 
 // Gallactic Frontier patch.
@@ -62,7 +60,6 @@ pub struct GallacticPatch<A: AccountPatch>(PhantomData<A>);
 pub type GallacticFrontierPatch = GallacticPatch<GallacticAccountPatch>;
 impl<A: AccountPatch> Patch for GallacticPatch<A> {
     type Account = A;
-
     fn code_deposit_limit() -> Option<usize> { None }
     fn callstack_limit() -> usize { 1024 }
     fn gas_extcode() -> Gas { Gas::from(700usize) }

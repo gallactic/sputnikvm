@@ -1,0 +1,23 @@
+[package]
+name = "sputnikvm-precompiled-interchaintrx"
+version = "0.1.0"
+description = "Inter chain transaction precompiled contract for Sputnikvm"
+authors = ["Harish <harishbm34@gmail.com>"]
+
+[dependencies]
+sputnikvm = { version = "0.10", path = "../..", default-features = false }
+etcommon-bigint = { version = "0.2", default-features = false }
+bn-plus = { version = "0.4" }
+web3 = "0.5.1"
+eth-secp256k1 = { git = "https://github.com/paritytech/rust-secp256k1" }
+serde_json = "1.0"
+ethereum-types = "0.4"
+tiny-keccak = "1.4"
+etcommon-hexutil = "0.2.3"
+
+[features]
+default = ["std", "c-secp256k1"]
+rlp = ["etcommon-bigint/rlp"]
+c-secp256k1 = ["sputnikvm/c-secp256k1"]
+rust-secp256k1 = ["sputnikvm/rust-secp256k1"]
+std = ["sputnikvm/std"]
