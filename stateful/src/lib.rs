@@ -444,7 +444,7 @@ impl<'b, D: DatabaseOwned> Stateful<'b, D> {
         let mut account_state = AccountState::default();
 
         loop {
-            match ValidTransaction::from_transaction::<P>(&transaction, &account_state) {
+            match ValidTransaction::from_transaction::<P>(transaction, &account_state) {
                 Ok(val) => return val,
                 Err(RequireError::Account(address)) => {
                     let account: Option<Account> = state.get(&address);
@@ -532,7 +532,8 @@ impl<'b, D: DatabaseOwned> Stateful<'b, D> {
     }
 
     pub fn storage_state<'a>(&'a self, address: Address) -> Option<FixedSecureTrie<<D as Database<'a>>::Guard, H256, M256>> {
-        let state = self.state();
+        // Specify the full type as a workaround for https://github.com/rust-lang/rust/issues/55756
+        let state: FixedSecureTrie<<D as Database<'a>>::Guard, Address, Account> = self.state();
         let account = state.get(&address);
 
         match account {

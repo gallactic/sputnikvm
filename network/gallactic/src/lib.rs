@@ -53,17 +53,12 @@ pub static GALLACTIC_PRECOMPILEDS: [(Address, Option<&'static [u8]>, &'static Pr
     (H160([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x65]),
      None,
      &INT_CHAIN_TRX_PRECOMPILED),
-     /*TODO: Need to work on
-     (H160([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0x66]),
-     None,
-     &CRT_NEW_BLK_PRECOMPILED),*/
 ];
 
 // Gallactic Frontier patch.
-pub struct FrontierPatch<A: AccountPatch>(PhantomData<A>);
-pub type GallacticFrontierPatch = FrontierPatch<GallacticAccountPatch>;
-
-impl<A: AccountPatch> Patch for FrontierPatch<A> {
+pub struct GallacticPatch<A: AccountPatch>(PhantomData<A>);
+pub type GallacticFrontierPatch = GallacticPatch<GallacticAccountPatch>;
+impl<A: AccountPatch> Patch for GallacticPatch<A> {
     type Account = A;
     fn code_deposit_limit() -> Option<usize> { None }
     fn callstack_limit() -> usize { 1024 }
@@ -82,6 +77,7 @@ impl<A: AccountPatch> Patch for FrontierPatch<A> {
     fn has_return_data() -> bool { true }
     fn has_bitwise_shift() -> bool { true }
     fn has_extcodehash() -> bool { true }
+    fn has_reduced_sstore_gas_metering() -> bool { true }
     fn err_on_call_with_more_gas() -> bool { false }
     fn call_create_l64_after_gas() -> bool { true }
     fn memory_limit() -> usize { usize::max_value() }
