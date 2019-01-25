@@ -18,8 +18,8 @@ impl AccountPatch for MainnetAccountPatch {
     fn empty_considered_exists() -> bool { true }
 }
 
-pub struct MordenAccountPatch;
-impl AccountPatch for MordenAccountPatch {
+pub struct ModernAccountPatch;
+impl AccountPatch for ModernAccountPatch {
     fn initial_nonce() -> U256 { U256::from(1048576) }
     fn initial_create_nonce() -> U256 { Self::initial_nonce() }
     fn empty_considered_exists() -> bool { true }
@@ -70,7 +70,7 @@ pub static BYZANTIUM_PRECOMPILEDS: [(Address, Option<&'static [u8]>, &'static Pr
 /// Frontier patch.
 pub struct FrontierPatch<A: AccountPatch>(PhantomData<A>);
 pub type MainnetFrontierPatch = FrontierPatch<MainnetAccountPatch>;
-pub type MordenFrontierPatch = FrontierPatch<MordenAccountPatch>;
+pub type ModernFrontierPatch = FrontierPatch<ModernAccountPatch>;
 impl<A: AccountPatch> Patch for FrontierPatch<A> {
     type Account = A;
 
@@ -102,7 +102,7 @@ impl<A: AccountPatch> Patch for FrontierPatch<A> {
 /// Homestead patch.
 pub struct HomesteadPatch<A: AccountPatch>(PhantomData<A>);
 pub type MainnetHomesteadPatch = HomesteadPatch<MainnetAccountPatch>;
-pub type MordenHomesteadPatch = HomesteadPatch<MordenAccountPatch>;
+pub type ModernHomesteadPatch = HomesteadPatch<ModernAccountPatch>;
 impl<A: AccountPatch> Patch for HomesteadPatch<A> {
     type Account = A;
 
@@ -134,7 +134,7 @@ impl<A: AccountPatch> Patch for HomesteadPatch<A> {
 /// EIP150 patch.
 pub struct EIP150Patch<A: AccountPatch>(PhantomData<A>);
 pub type MainnetEIP150Patch = EIP150Patch<MainnetAccountPatch>;
-pub type MordenEIP150Patch = EIP150Patch<MordenAccountPatch>;
+pub type ModernEIP150Patch = EIP150Patch<ModernAccountPatch>;
 impl<A: AccountPatch> Patch for EIP150Patch<A> {
     type Account = A;
 
@@ -166,7 +166,7 @@ impl<A: AccountPatch> Patch for EIP150Patch<A> {
 /// EIP160 patch.
 pub struct EIP160Patch<A: AccountPatch>(PhantomData<A>);
 pub type MainnetEIP160Patch = EIP160Patch<MainnetAccountPatch>;
-pub type MordenEIP160Patch = EIP160Patch<MordenAccountPatch>;
+pub type ModernEIP160Patch = EIP160Patch<ModernAccountPatch>;
 impl<A: AccountPatch> Patch for EIP160Patch<A> {
     type Account = A;
 
@@ -198,7 +198,7 @@ impl<A: AccountPatch> Patch for EIP160Patch<A> {
 /// Byzantium patch.
 pub struct ByzantiumPatch<A: AccountPatch>(PhantomData<A>);
 pub type MainnetByzantiumPatch = ByzantiumPatch<MainnetAccountPatch>;
-pub type MordenByzantiumPatch = ByzantiumPatch<MordenAccountPatch>;
+pub type ModernByzantiumPatch = ByzantiumPatch<ModernAccountPatch>;
 impl<A: AccountPatch> Patch for ByzantiumPatch<A> {
     type Account = A;
 
@@ -231,7 +231,7 @@ impl<A: AccountPatch> Patch for ByzantiumPatch<A> {
 /// Constantinople patch (includes Byzantium changes)
 pub struct ConstantinoplePatch<A: AccountPatch>(PhantomData<A>);
 pub type MainnetConstantinoplePatch = ConstantinoplePatch<MainnetAccountPatch>;
-pub type MordenConstantinoplePatch = ConstantinoplePatch<MordenAccountPatch>;
+pub type ModernConstantinoplePatch = ConstantinoplePatch<ModernAccountPatch>;
 impl<A: AccountPatch> Patch for ConstantinoplePatch<A> {
     type Account = A;
 

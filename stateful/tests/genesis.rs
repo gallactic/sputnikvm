@@ -36,8 +36,8 @@ lazy_static! {
 }
 
 lazy_static! {
-    static ref MORDEN_ACCOUNTS: HashMap<String, JSONAccount> =
-        serde_json::from_str(include_str!("../res/morden.json")).unwrap();
+    static ref MODERN_ACCOUNTS: HashMap<String, JSONAccount> =
+        serde_json::from_str(include_str!("../res/modern.json")).unwrap();
 }
 
 #[test]
@@ -56,12 +56,12 @@ fn secure_trie() {
 }
 
 #[test]
-fn morden_state_root() {
+fn modern_state_root() {
     let database = MemoryDatabase::default();
     let mut stateful = MemoryStateful::empty(&database);
     let mut rng = rand::thread_rng();
 
-    let mut accounts: Vec<(&String, &JSONAccount)> = MORDEN_ACCOUNTS.iter().collect();
+    let mut accounts: Vec<(&String, &JSONAccount)> = MODERN_ACCOUNTS.iter().collect();
     rng.shuffle(&mut accounts);
 
     for (key, value) in accounts {
