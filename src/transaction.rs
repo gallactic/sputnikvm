@@ -215,6 +215,10 @@ impl ValidTransaction {
         account_state: &mut AccountState<P::Account>, is_code: bool,
         is_static: bool) -> Result<Context, RequireError> {
         let address = self.address();
+        let mut remained_gas = Gas::zero();
+        if self.gas_limit > upfront {
+            remained_gas = self.gas_limit - upfront
+        }
 
         match self.action {
             TransactionAction::Call(_) => {
@@ -234,7 +238,7 @@ impl ValidTransaction {
                     data: self.input,
                     gas_price: self.gas_price,
                     value: self.value,
-                    gas_limit: self.gas_limit - upfront,
+                    gas_limit: remained_gas,
                     code: account_state.code(address).unwrap(),
                     origin: origin.unwrap_or(self.caller.unwrap_or(system_address!())),
                     apprent_value: self.value,
@@ -254,7 +258,7 @@ impl ValidTransaction {
                     caller: self.caller.unwrap_or(system_address!()),
                     gas_price: self.gas_price,
                     value: self.value,
-                    gas_limit: self.gas_limit - upfront,
+                    gas_limit: remained_gas,
                     data: Rc::new(Vec::new()),
                     code: self.input,
                     origin: origin.unwrap_or(self.caller.unwrap_or(system_address!())),

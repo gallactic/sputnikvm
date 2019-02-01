@@ -118,7 +118,11 @@ impl<M, P: Patch> State<M, P> {
 
     /// Available gas at this moment.
     pub fn available_gas(&self) -> Gas {
-        self.context.gas_limit - self.total_used_gas()
+        if self.context.gas_limit > self.total_used_gas() {
+            self.context.gas_limit - self.total_used_gas()
+        } else {
+            Gas::zero()
+        }
     }
 
     /// Total used gas including the memory gas.
@@ -441,7 +445,10 @@ impl<M: Memory + Default, P: Patch> Machine<M, P> {
                 },
             };
 
-            let after_gas = self.state.context.gas_limit - all_gas_cost;
+            let mut after_gas = Gas::zero();
+            if self.state.context.gas_limit > all_gas_cost {
+                after_gas = self.state.context.gas_limit - all_gas_cost;
+            }
 
             match extra_check_opcode::<M, P>(instruction, &self.state, gas_stipend, after_gas) {
                 Ok(()) => (),
